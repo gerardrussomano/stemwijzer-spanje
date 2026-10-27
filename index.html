@@ -1,0 +1,767 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Stemwijzer Spanje: test electoral para las elecciones generales del 29 de noviembre de 2026. 33 afirmaciones, 26 candidaturas, en español, neerlandés e inglés.">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Stemwijzer Spanje</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: a single ballot-paper column; statement card on top, answer row below, results as a ranked tally sheet. */
+:root{
+  --bg:#eef0f3;
+  --paper:#ffffff;
+  --ink:#16203a;
+  --muted:#5b6478;
+  --line:#d5d9e2;
+  --accent:#b3122e;          /* rojo hemiciclo */
+  --accent-ink:#ffffff;
+  --gold:#d9a400;            /* gualda */
+  --senate:#efe4cc;          /* papeleta sepia del Senado */
+  --agree:#1f7a4d;
+  --disagree:#b3122e;
+  --neutral:#8a8f9c;
+  --display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1422;--paper:#182033;--ink:#e8ebf2;--muted:#9aa3b8;--line:#2c3650;
+  --accent:#ef4d62;--accent-ink:#13182a;--gold:#f0c23a;--senate:#3a3326;
+  --agree:#4cc68a;--disagree:#ef4d62;--neutral:#8b93a7;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1422;--paper:#182033;--ink:#e8ebf2;--muted:#9aa3b8;--line:#2c3650;
+  --accent:#ef4d62;--accent-ink:#13182a;--gold:#f0c23a;--senate:#3a3326;
+  --agree:#4cc68a;--disagree:#ef4d62;--neutral:#8b93a7;color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+.wrap{max-width:820px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.05}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.flag{height:6px;background:linear-gradient(var(--accent) 0 33%,var(--gold) 33% 67%,var(--accent) 67%);margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)))}
+
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:18px;flex-wrap:wrap}
+.brand{display:flex;flex-direction:column;gap:2px}
+.brand b{font-family:var(--display);font-variation-settings:"wdth" 125;font-weight:900;font-size:22px;letter-spacing:-.01em}
+.brand b span{color:var(--accent)}
+.brand small{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--paper)}
+.lang button{border:0;background:none;padding:6px 12px;font-size:13px;font-weight:600;color:var(--muted)}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+
+/* Intro */
+.hero{display:grid;gap:18px;padding-block:28px 8px}
+.hero h1{font-size:clamp(40px,8vw,76px);font-weight:900;font-variation-settings:"wdth" 112;letter-spacing:-.02em}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p{max-width:60ch;color:var(--muted);margin:0;font-size:17px}
+.facts{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:var(--mono);font-size:13px;color:var(--ink)}
+.facts span{display:flex;gap:6px;align-items:baseline}
+.facts span i{font-style:normal;color:var(--muted)}
+.cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.btn{border:0;border-radius:6px;padding:14px 22px;font-weight:600;font-size:16px;background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:none;border:1px solid var(--line);color:var(--ink)}
+.btn:hover{filter:brightness(1.07)}
+.regionpick{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted)}
+select{font:inherit;font-size:15px;padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);max-width:100%}
+
+.section-label{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:34px 0 12px}
+.partygrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px}
+.pchip{display:flex;gap:10px;align-items:flex-start;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:10px 12px;min-width:0}
+.pchip .sw{flex:0 0 10px;height:34px;border-radius:2px}
+.pchip div{min-width:0}
+.pchip strong{display:block;font-size:14px;line-height:1.25}
+.pchip small{display:block;color:var(--muted);font-size:12px;line-height:1.35}
+.note{font-size:13px;color:var(--muted);max-width:68ch}
+.pchip small.nleq{color:var(--ink);margin-top:3px}
+.nlb{display:inline-block;font-family:var(--mono);font-size:10px;line-height:1;padding:2px 4px;border-radius:2px;background:#ae1c28;color:#fff;vertical-align:1px;letter-spacing:.04em}
+.pod small.nleq{display:block;margin-top:8px;font-size:12px;color:var(--muted)}
+
+/* Question */
+.progress{display:grid;grid-template-columns:repeat(var(--n),1fr);gap:3px;margin-top:14px}
+.progress button{height:8px;border:0;border-radius:2px;background:var(--line);padding:0}
+.progress button.done{background:var(--ink)}
+.progress button.skip{background:var(--gold)}
+.progress button.cur{background:var(--accent)}
+.qmeta{display:flex;justify-content:space-between;gap:12px;margin-top:22px;font-family:var(--mono);font-size:13px;color:var(--muted);flex-wrap:wrap}
+.qmeta .topic{color:var(--accent);text-transform:uppercase;letter-spacing:.07em}
+.ballot{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:clamp(22px,5vw,44px);margin-top:12px;position:relative}
+.ballot::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--ink);border-radius:4px 4px 0 0}
+.ballot h2{font-size:clamp(24px,4.4vw,36px);font-weight:800;font-variation-settings:"wdth" 96;letter-spacing:-.01em}
+.ballot .ctx{color:var(--muted);margin:14px 0 0;max-width:62ch;font-size:15px}
+.answers{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:18px}
+.answers button{border:1px solid var(--line);background:var(--paper);border-radius:6px;padding:14px 6px;font-size:14px;font-weight:600;line-height:1.2;display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0}
+.answers button .dot{width:16px;height:16px;border-radius:50%;border:2px solid currentColor}
+.answers button[data-v="2"],.answers button[data-v="1"]{color:var(--agree)}
+.answers button[data-v="-1"],.answers button[data-v="-2"]{color:var(--disagree)}
+.answers button[data-v="0"]{color:var(--neutral)}
+.answers button span.l{color:var(--ink)}
+.answers button:hover{border-color:currentColor}
+.answers button.sel{border-color:currentColor;box-shadow:inset 0 0 0 2px currentColor}
+.answers button.sel .dot{background:currentColor}
+@media (max-width:560px){.answers{grid-template-columns:1fr}.answers button{flex-direction:row;justify-content:flex-start;padding:12px 14px}}
+.qnav{display:flex;justify-content:space-between;gap:12px;margin-top:14px;flex-wrap:wrap}
+.link{background:none;border:0;padding:6px 0;color:var(--muted);font-weight:600;font-size:14px;text-decoration:underline;text-underline-offset:3px}
+details.peek{margin-top:22px;border-top:1px solid var(--line);padding-top:12px}
+details.peek summary{font-weight:600;font-size:14px;cursor:pointer;color:var(--ink)}
+.peekcols{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:12px}
+@media (max-width:560px){.peekcols{grid-template-columns:1fr}}
+.peekcols h4{margin:0 0 6px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.peekcols ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:4px}
+.tag{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:2px 7px;border:1px solid var(--line);border-radius:3px;background:var(--bg);white-space:nowrap}
+.tag i{width:8px;height:8px;border-radius:50%;display:inline-block}
+
+/* Importance */
+.implist{display:grid;gap:6px;margin-top:16px}
+.imp{display:flex;gap:12px;align-items:flex-start;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:12px 14px;cursor:pointer}
+.imp input{margin-top:4px;width:18px;height:18px;accent-color:var(--accent);flex:0 0 auto}
+.imp div{min-width:0}
+.imp small{display:block;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.imp.off{opacity:.55}
+.opts{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-end;margin-top:22px}
+
+/* Results */
+.resgrid{display:grid;gap:6px;margin-top:14px}
+.row{background:var(--paper);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.row.out{opacity:.5}
+.row > button{display:grid;grid-template-columns:30px minmax(0,1fr) 64px;gap:12px;align-items:center;width:100%;background:none;border:0;padding:12px 14px;text-align:left}
+.rank{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.rname{display:flex;flex-direction:column;gap:6px;min-width:0}
+.rname b{font-size:15px;line-height:1.2}
+.rname b small{font-weight:400;color:var(--muted);font-size:12px;margin-left:6px}
+.bar{height:10px;background:var(--bg);border-radius:2px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:2px;transition:width .6s ease}
+.pct{font-family:var(--display);font-variation-settings:"wdth" 100;font-weight:800;font-size:22px;text-align:right;font-variant-numeric:tabular-nums}
+.detail{padding:0 14px 14px;border-top:1px solid var(--line)}
+.detail p{font-size:14px;color:var(--muted);margin:12px 0}
+.cmp{width:100%;border-collapse:collapse;font-size:13px}
+.cmp th{text-align:left;font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:6px 4px;border-bottom:1px solid var(--line)}
+.cmp td{padding:6px 4px;border-bottom:1px solid var(--line);vertical-align:top}
+.cmp td.v{white-space:nowrap;font-weight:600}
+.v2,.v1{color:var(--agree)} .vm1,.vm2{color:var(--disagree)} .v0,.vx{color:var(--neutral)}
+.match{font-family:var(--mono);font-size:11px;padding:1px 5px;border-radius:3px}
+.match.ok{background:color-mix(in srgb,var(--agree) 16%,transparent);color:var(--agree)}
+.match.no{background:color-mix(in srgb,var(--disagree) 16%,transparent);color:var(--disagree)}
+.match.mid{background:color-mix(in srgb,var(--neutral) 18%,transparent);color:var(--muted)}
+.tablewrap{overflow-x:auto}
+.podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:18px}
+@media (max-width:560px){.podium{grid-template-columns:1fr}}
+.pod{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:16px;border-top:5px solid var(--c)}
+.pod .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.pod b{display:block;font-size:17px;margin-top:4px;line-height:1.2}
+.pod .big{font-family:var(--display);font-weight:900;font-size:44px;font-variation-settings:"wdth" 110;line-height:1;margin-top:10px;font-variant-numeric:tabular-nums}
+.compass{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px;margin-top:10px}
+.compass svg{width:100%;height:auto;display:block;max-width:100%}
+.compass text{font-family:var(--body);fill:var(--muted)}
+.filterbar{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:8px;font-size:14px}
+.filterbar label{display:flex;gap:6px;align-items:center}
+footer{margin-top:48px;border-top:1px solid var(--line);padding-top:16px;font-size:13px;color:var(--muted)}
+footer a{color:var(--ink)}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="flag"></div>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><b>Stemwijzer <span>Spanje</span></b><small id="sub"></small></div>
+    <div class="lang" role="group" aria-label="Idioma / Language">
+      <button id="lang-es" data-lang="es">ES</button><button id="lang-nl" data-lang="nl">NL</button><button id="lang-en" data-lang="en">EN</button>
+    </div>
+  </header>
+  <main id="app"></main>
+  <footer id="foot"></footer>
+</div>
+
+<script id="data">
+/* Orden de partidos en cada array `pos`:
+   PP, PSOE, VOX, FA, POD, SALF, D21, IZQ, FO, FE, PACMA, IUST,
+   ERC, JUNTS, BILDU, PNV, BNG, CC, COMP, UPC, ARA, ALH, AA, DRAGO, EXIS, SORIA
+   Escala: 2 muy de acuerdo · 1 de acuerdo · 0 neutral · -1 en desacuerdo · -2 muy en desacuerdo */
+const PARTIES = [
+ {id:"PP",   name:"Partido Popular", short:"PP", leader:"Alberto Núñez Feijóo", color:"#1d84ce", scope:"ES",
+  d:{es:"Centroderecha. Concurre con UPN en Navarra. Bajadas de impuestos, derogar la amnistía y una política migratoria más estricta.",
+     en:"Centre-right. Runs with UPN in Navarre. Tax cuts, repeal of the amnesty and stricter migration policy."}},
+ {id:"PSOE", name:"PSOE", short:"PSOE", leader:"Pedro Sánchez", color:"#e30613", scope:"ES",
+  d:{es:"Socialdemócrata, con el PSC en Cataluña. Defiende la gestión económica, la vivienda pública y el diálogo territorial.",
+     en:"Social democrat, with the PSC in Catalonia. Runs on its economic record, public housing and territorial dialogue."}},
+ {id:"VOX",  name:"Vox", short:"Vox", leader:"Santiago Abascal", color:"#5fae1f", scope:"ES",
+  d:{es:"Derecha nacionalista. Recentralización, control migratorio estricto, derogar las leyes de género y bajar impuestos.",
+     en:"Nationalist right. Recentralisation, strict immigration control, repeal of gender laws and tax cuts."}},
+ {id:"FA",   name:"Frente Amplio", short:"FA", leader:"Ada Colau", color:"#e5196f", scope:"ES",
+  d:{es:"Coalición de Movimiento Sumar, IU, Más Madrid, Comuns, CHA, Verdes Equo y otros. Regulación del alquiler, servicios públicos y ecologismo.",
+     en:"Coalition of Movimiento Sumar, IU, Más Madrid, Comuns, CHA, Verdes Equo and others. Rent regulation, public services, ecology."}},
+ {id:"POD",  name:"Podemos", short:"Podemos", leader:"Irene Montero", color:"#6b2e68", scope:"ES",
+  d:{es:"Izquierda. En solitario en la mayoría de provincias (en Canarias dentro de UPC, en Valencia con Compromís). Feminismo, vivienda y rechazo al gasto militar.",
+     en:"Left. Runs alone in most provinces (inside UPC in the Canaries, with Compromís in Valencia). Feminism, housing, against military spending."}},
+ {id:"SALF", name:"Se Acabó La Fiesta", short:"SALF", leader:"Alvise Pérez", color:"#3b3b3b", scope:"ES",
+  d:{es:"Populismo de derechas. Discurso anticorrupción, mano dura en seguridad e inmigración y menos impuestos.",
+     en:"Right-wing populism. Anti-corruption message, tough on crime and immigration, lower taxes."}},
+ {id:"D21",  name:"Democracia 21", short:"D21", leader:"Miriam González Durántez", color:"#eb6109", scope:"ES",
+  d:{es:"Con Ciudadanos y UCIN. Centro liberal y europeísta, contrario a las concesiones a los nacionalismos.",
+     en:"With Ciudadanos and UCIN. Liberal, pro-European centre, opposed to concessions to nationalist parties."}},
+ {id:"IZQ",  name:"Izquierda Española", short:"IzqEsp", leader:"Por definir", color:"#8e1b2c", scope:"ES",
+  d:{es:"Izquierda jacobina: socialdemocracia en lo económico y defensa de un Estado unitario, contra los privilegios territoriales.",
+     en:"Jacobin left: social-democratic economics and a unitary state, against territorial privileges."}},
+ {id:"FO",   name:"Frente Obrero", short:"FO", leader:"Roberto Vaquero", color:"#c4161c", scope:"ES",
+  d:{es:"Izquierda obrera de corte patriótico. Nacionalizaciones, crítica a la inmigración masiva y a la OTAN, contra el independentismo.",
+     en:"Patriotic workers' left. Nationalisation, critical of mass immigration and NATO, against independence movements."}},
+ {id:"FE",   name:"FE de las JONS", short:"FE JONS", leader:"Norberto Pedro Pico Sanabria", color:"#1a1a1a", scope:"ES",
+  d:{es:"Nacionalsindicalismo. Unidad de España, catolicismo social, rechazo al aborto y a la Ley de Memoria.",
+     en:"National syndicalism. Spanish unity, social Catholicism, against abortion and the Democratic Memory Law."}},
+ {id:"PACMA",name:"PACMA", short:"PACMA", leader:"Por definir", color:"#3cae36", scope:"ES",
+  d:{es:"Animalista. Fin de la tauromaquia y de la caza, ecologismo y políticas sociales progresistas.",
+     en:"Animal-rights party. End of bullfighting and hunting, environmentalism, progressive social policy."}},
+ {id:"IUST", name:"Iustitia Europa", short:"IE", leader:"Luis María Pardo", color:"#1b3c6b", scope:"ES",
+  d:{es:"Regeneración e independencia judicial, lucha contra la corrupción y europeísmo. Pocas posiciones públicas en otros temas (muchas neutrales).",
+     en:"Judicial independence, anti-corruption and pro-Europe. Few public positions on other issues (many set to neutral)."}},
+ {id:"ERC",  name:"Esquerra Republicana", short:"ERC", leader:"Gabriel Rufián", color:"#f5a623", scope:["CAT"],
+  d:{es:"Izquierda independentista catalana. Financiación singular, referéndum pactado y acuerdo estratégico con Podemos.",
+     en:"Catalan pro-independence left. Own fiscal deal, agreed referendum, strategic pact with Podemos."}},
+ {id:"JUNTS",name:"Junts per Catalunya", short:"Junts", leader:"Míriam Nogueras", color:"#20b8aa", scope:["CAT"],
+  d:{es:"Independentismo catalán de centroderecha. Competencias propias (incluida inmigración); descarta volver a apoyar a Sánchez.",
+     en:"Centre-right Catalan independence. Wants more powers (incl. immigration); rules out backing Sánchez again."}},
+ {id:"BILDU",name:"EH Bildu", short:"Bildu", leader:"Oskar Matute", color:"#9cbf1b", scope:["PV","NAV"],
+  d:{es:"Izquierda soberanista vasca y navarra. Derecho a decidir y políticas sociales y laborales.",
+     en:"Basque and Navarrese pro-sovereignty left. Right to decide, social and labour policy."}},
+ {id:"PNV",  name:"EAJ-PNV", short:"PNV", leader:"Maribel Vaquero", color:"#0d7a3a", scope:["PV"],
+  d:{es:"Nacionalismo vasco democristiano. Nuevas transferencias, concierto económico y moderación económica.",
+     en:"Christian-democratic Basque nationalism. More devolved powers, the fiscal 'concierto', economic moderation."}},
+ {id:"BNG",  name:"Bloque Nacionalista Galego", short:"BNG", leader:"Néstor Rego", color:"#6bb4e1", scope:["GAL"],
+  d:{es:"Nacionalismo gallego de izquierdas. Soberanía, defensa del gallego y de los servicios públicos.",
+     en:"Galician left nationalism. Sovereignty, Galician language, public services."}},
+ {id:"CC",   name:"Coalición Canaria – Primero Canarias", short:"CC", leader:"Cristina Valido", color:"#e8c100", scope:["CAN"],
+  d:{es:"Nacionalismo canario de centro. 'Agenda Canaria': financiación, gestión migratoria y costes de la insularidad.",
+     en:"Centrist Canarian nationalism. 'Canarian Agenda': funding, migration management, island costs."}},
+ {id:"COMP", name:"Compromís: Front Valencià", short:"Compromís", leader:"Àgueda Micó", color:"#f28c28", scope:["CV"],
+  d:{es:"Valencianismo de izquierdas y ecologista, con Podem y EUPV. Mejor financiación para la Comunitat Valenciana.",
+     en:"Valencian left and green, with Podem and EUPV. Fairer funding for the Valencian region."}},
+ {id:"UPC",  name:"Unidad del Pueblo Canario", short:"UPC", leader:"Luis Campos", color:"#7fb33b", scope:["CAN"],
+  d:{es:"NC-BC, Podemos, Sumar e IU Canarias. Izquierda canaria.",
+     en:"NC-BC, Podemos, Sumar and IU in the Canaries. Canarian left."}},
+ {id:"ARA",  name:"Ara Més – Front Ampli", short:"Ara Més", leader:"Carme Gomila", color:"#d9583b", scope:["BAL"],
+  d:{es:"Més, Sumar y EU en Baleares. Soberanismo de izquierdas, límites al turismo y a la compra especulativa de vivienda.",
+     en:"Més, Sumar and EU in the Balearics. Left sovereigntism, limits on tourism and speculative home buying."}},
+ {id:"ALH",  name:"Alhora", short:"Alhora", leader:"Jordi Graupera", color:"#c23a5a", scope:["CAT"],
+  d:{es:"Independentismo catalán partidario de la vía unilateral; perfil liberal en economía.",
+     en:"Catalan independence via a unilateral route; economically liberal."}},
+ {id:"AA",   name:"Adelante Andalucía", short:"AA", leader:"Luis de los Santos", color:"#0f9d58", scope:["AND"],
+  d:{es:"Andalucismo de izquierdas. Vivienda, servicios públicos y control andaluz de sus recursos.",
+     en:"Andalusian left. Housing, public services, Andalusian control of its resources."}},
+ {id:"DRAGO",name:"Drago Canarias", short:"Drago", leader:"Alberto Rodríguez", color:"#2e7d32", scope:["CAN"],
+  d:{es:"Izquierda ecologista canaria del exdiputado Alberto Rodríguez.",
+     en:"Canarian green left led by former MP Alberto Rodríguez."}},
+ {id:"EXIS", name:"Existe (Teruel/Aragón Existe)", short:"Existe", leader:"Por definir", color:"#03643a", scope:["ARA"],
+  d:{es:"España vaciada: infraestructuras, servicios públicos y fiscalidad diferenciada para zonas despobladas.",
+     en:"'Emptied Spain': infrastructure, public services and special tax treatment for depopulated areas."}},
+ {id:"SORIA",name:"Soria ¡Ya!", short:"Soria Ya", leader:"Por definir", color:"#8a1538", scope:["CYL"],
+  d:{es:"Plataforma de la España vaciada en Soria. Servicios públicos, conexiones y ayudas al funcionamiento.",
+     en:"Depopulation platform for Soria. Public services, transport links and operating aid."}}
+];
+
+const QUESTIONS = [
+ {id:"alquiler", topic:{es:"Vivienda",en:"Housing"},
+  t:{es:"El Estado debe limitar por ley el precio del alquiler en las zonas tensionadas.",en:"The state should cap rents by law in high-pressure housing areas."},
+  c:{es:"La Ley de Vivienda de 2023 permite topes, pero su aplicación depende de cada comunidad. El rechazo de los decretos de vivienda precipitó estas elecciones.",en:"The 2023 Housing Act allows caps, but each region decides whether to apply them. The defeat of the housing decrees triggered this election."},
+  pos:[-2,1,-2,2,2,-2,-1,1,2,1,1,0, 2,-1,2,-1,2,-1,2,2,2,-1,2,2,0,0]},
+ {id:"noresidentes", topic:{es:"Vivienda",en:"Housing"},
+  t:{es:"Hay que gravar fuertemente o restringir la compra de vivienda por parte de no residentes de fuera de la UE.",en:"Home purchases by non-EU non-residents should be heavily taxed or restricted."},
+  c:{es:"El Gobierno propuso un impuesto de hasta el 100% sobre estas compras.",en:"The government proposed a tax of up to 100% on such purchases."},
+  pos:[-1,2,1,2,2,1,-1,1,2,2,1,0, 1,0,2,0,2,1,2,2,2,0,2,2,0,0]},
+ {id:"turisticos", topic:{es:"Vivienda",en:"Housing"},
+  t:{es:"Hay que prohibir nuevos pisos turísticos en las zonas con escasez de vivienda.",en:"New tourist flats should be banned in areas with a housing shortage."},
+  c:null,
+  pos:[-1,1,-1,2,2,-1,0,1,1,1,1,0, 2,0,2,1,2,1,2,2,2,0,2,2,0,0]},
+ {id:"fortunas", topic:{es:"Impuestos",en:"Taxes"},
+  t:{es:"Debe mantenerse un impuesto permanente a las grandes fortunas.",en:"A permanent tax on large fortunes should be kept."},
+  c:{es:"El impuesto de solidaridad se creó como temporal en 2022 y se ha ido prorrogando.",en:"The 'solidarity tax' was created as temporary in 2022 and has been extended since."},
+  pos:[-2,2,-2,2,2,-2,-1,2,2,1,1,0, 2,-1,2,-1,2,-1,2,2,2,-1,2,2,0,0]},
+ {id:"irpf", topic:{es:"Impuestos",en:"Taxes"},
+  t:{es:"Hay que bajar el IRPF aunque eso suponga reducir el gasto público.",en:"Income tax (IRPF) should be cut, even if that means lower public spending."},
+  c:null,
+  pos:[2,-2,2,-2,-2,2,1,-1,-2,-1,-1,0, -2,1,-2,0,-2,1,-2,-2,-2,1,-2,-2,0,0]},
+ {id:"jornada", topic:{es:"Trabajo",en:"Work"},
+  t:{es:"La jornada laboral máxima debe reducirse por ley a 37,5 horas semanales sin rebaja de sueldo.",en:"The maximum working week should be cut by law to 37.5 hours with no pay cut."},
+  c:{es:"La reducción de jornada fue rechazada en el Congreso en 2025 con los votos de PP, Vox y Junts.",en:"The shorter working week was voted down in 2025 by PP, Vox and Junts."},
+  pos:[-1,2,-2,2,2,-2,-1,1,2,1,1,0, 1,-2,2,-1,2,-1,2,2,2,-1,2,2,0,0]},
+ {id:"smi", topic:{es:"Trabajo",en:"Work"},
+  t:{es:"El salario mínimo debe seguir subiendo hasta alcanzar el 60% del salario medio.",en:"The minimum wage should keep rising until it reaches 60% of the average wage."},
+  c:null,
+  pos:[-1,2,-1,2,2,-1,-1,2,2,2,1,0, 2,-1,2,-1,2,-1,2,2,2,-1,2,2,0,0]},
+ {id:"pensiones", topic:{es:"Pensiones",en:"Pensions"},
+  t:{es:"Las pensiones deben subir siempre con el IPC, aunque haya que aumentar las cotizaciones.",en:"Pensions should always rise with inflation, even if social security contributions must go up."},
+  c:null,
+  pos:[1,2,0,2,2,0,0,2,2,2,1,0, 1,0,2,1,2,1,2,2,2,0,2,2,1,1]},
+ {id:"sanidad", topic:{es:"Sanidad",en:"Healthcare"},
+  t:{es:"Hay que reducir la gestión privada dentro de la sanidad pública (conciertos y hospitales de gestión privada).",en:"Private management inside the public health system (contracts, privately run hospitals) should be reduced."},
+  c:null,
+  pos:[-2,1,-1,2,2,-1,-1,2,2,1,1,0, 1,-1,2,-1,2,0,2,2,2,0,2,2,1,1]},
+ {id:"concertada", topic:{es:"Educación",en:"Education"},
+  t:{es:"Debe reducirse la financiación pública de la escuela concertada en favor de la pública.",en:"Public funding for state-subsidised private schools ('concertada') should be shifted to public schools."},
+  c:null,
+  pos:[-2,0,-2,2,2,-1,-1,1,2,-1,1,0, 1,-1,2,-2,2,-1,2,2,2,-1,2,2,0,0]},
+ {id:"energia", topic:{es:"Economía",en:"Economy"},
+  t:{es:"El Estado debe crear una empresa pública de energía y tener más control sobre los sectores estratégicos.",en:"The state should set up a public energy company and take more control of strategic sectors."},
+  c:null,
+  pos:[-2,0,-1,2,2,-2,-2,1,2,2,1,0, 1,-2,2,-1,2,-1,2,2,2,-1,2,2,1,1]},
+ {id:"regularizacion", topic:{es:"Inmigración",en:"Immigration"},
+  t:{es:"Hay que regularizar a los inmigrantes en situación irregular que ya viven y trabajan en España.",en:"Undocumented immigrants who already live and work in Spain should be regularised."},
+  c:{es:"Una iniciativa legislativa popular con más de 600.000 firmas pidió regularizar a unas 500.000 personas.",en:"A citizens' initiative with over 600,000 signatures asked to regularise around 500,000 people."},
+  pos:[-1,2,-2,2,2,-2,0,0,-1,-2,1,0, 2,-2,2,1,2,0,2,2,2,-1,2,2,1,0]},
+ {id:"fronteras", topic:{es:"Inmigración",en:"Immigration"},
+  t:{es:"España debe endurecer el control de fronteras y acelerar la expulsión de inmigrantes que cometen delitos.",en:"Spain should tighten border control and speed up the deportation of immigrants who commit crimes."},
+  c:{es:"La entrada masiva en Ceuta del 30 de julio de 2026 reabrió este debate.",en:"The mass crossing into Ceuta on 30 July 2026 reopened this debate."},
+  pos:[2,0,2,-2,-2,2,1,1,2,2,-1,1, -1,2,-2,0,-2,1,-2,-2,-2,1,-2,-2,0,0]},
+ {id:"migcomp", topic:{es:"Inmigración",en:"Immigration"},
+  t:{es:"Las comunidades autónomas que lo pidan deben poder gestionar competencias de inmigración.",en:"Regions that ask for it should be able to manage immigration powers themselves."},
+  c:{es:"El PSOE pactó con Junts delegar estas competencias en Cataluña; Podemos lo tumbó en el Congreso.",en:"PSOE agreed with Junts to delegate these powers to Catalonia; Podemos voted it down in Congress."},
+  pos:[-2,0,-2,0,-1,-2,-2,-2,-2,-2,0,-1, 2,2,2,2,2,2,1,1,1,2,1,1,-1,-1]},
+ {id:"amnistia", topic:{es:"Territorio",en:"Territory"},
+  t:{es:"La Ley de Amnistía para los implicados en el procés fue una decisión acertada.",en:"The Amnesty Law for those involved in the Catalan independence process was the right decision."},
+  c:null,
+  pos:[-2,2,-2,2,2,-2,-2,-2,-2,-2,0,-2, 2,2,2,2,2,0,2,2,2,1,1,1,0,0]},
+ {id:"referendum", topic:{es:"Territorio",en:"Territory"},
+  t:{es:"Cataluña y el País Vasco deberían poder votar en un referéndum de autodeterminación pactado con el Estado.",en:"Catalonia and the Basque Country should be able to hold a self-determination referendum agreed with the state."},
+  c:null,
+  pos:[-2,-2,-2,1,2,-2,-2,-2,-2,-2,0,-2, 2,2,2,1,2,0,1,1,1,2,1,1,-1,-1]},
+ {id:"financiacion", topic:{es:"Territorio",en:"Territory"},
+  t:{es:"Cataluña debe tener una financiación singular y recaudar todos sus impuestos, como el País Vasco y Navarra.",en:"Catalonia should get its own fiscal deal and collect all its taxes, like the Basque Country and Navarre."},
+  c:null,
+  pos:[-2,0,-2,1,0,-2,-2,-2,-2,-2,0,-1, 2,2,2,2,2,1,0,0,1,2,-1,0,-2,-2]},
+ {id:"recentralizar", topic:{es:"Territorio",en:"Territory"},
+  t:{es:"Competencias como la educación o la sanidad deberían volver al Estado central.",en:"Powers such as education and healthcare should return to the central state."},
+  c:null,
+  pos:[-1,-2,2,-2,-2,1,1,2,2,2,-1,0, -2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-1,-1]},
+ {id:"lenguas", topic:{es:"Lenguas",en:"Languages"},
+  t:{es:"El catalán, el euskera y el gallego deben ser requisito para trabajar en la administración pública de sus comunidades.",en:"Catalan, Basque and Galician should be required to work in the public administration of their regions."},
+  c:null,
+  pos:[-1,0,-2,1,1,-2,-2,-2,-1,-2,0,-1, 2,2,2,2,2,0,2,0,2,2,0,0,-1,-1]},
+ {id:"vaciada", topic:{es:"España vaciada",en:"Rural Spain"},
+  t:{es:"Las zonas despobladas deben tener rebajas fiscales y prioridad en la inversión pública.",en:"Depopulated areas should get tax breaks and priority in public investment."},
+  c:null,
+  pos:[1,1,1,1,1,1,1,2,1,2,0,1, 0,0,0,0,1,1,0,1,0,0,1,1,2,2]},
+ {id:"monarquia", topic:{es:"Instituciones",en:"Institutions"},
+  t:{es:"Debería celebrarse un referéndum para elegir entre monarquía y república.",en:"There should be a referendum to choose between monarchy and republic."},
+  c:null,
+  pos:[-2,-1,-2,2,2,-1,-2,1,2,1,1,-1, 2,2,2,0,2,-1,2,2,2,2,2,2,0,0]},
+ {id:"cgpj", topic:{es:"Justicia",en:"Justice"},
+  t:{es:"Los propios jueces deberían elegir a la mayoría de los miembros del CGPJ, sin intervención del Parlamento.",en:"Judges themselves should elect most members of the judiciary's governing council (CGPJ), without Parliament."},
+  c:null,
+  pos:[2,-2,2,-2,-2,2,2,0,-1,1,-1,2, -2,-1,-2,-1,-2,0,-2,-2,-2,0,-2,-2,0,0]},
+ {id:"mordaza", topic:{es:"Libertades",en:"Civil liberties"},
+  t:{es:"Debe derogarse la Ley de Seguridad Ciudadana ('ley mordaza').",en:"The Public Security Law (the 'gag law') should be repealed."},
+  c:null,
+  pos:[-2,1,-2,2,2,-2,-1,0,1,-2,1,-1, 2,1,2,1,2,0,2,2,2,1,2,2,0,0]},
+ {id:"memoria", topic:{es:"Memoria",en:"Historical memory"},
+  t:{es:"La Ley de Memoria Democrática debe mantenerse, incluida la resignificación del Valle de Cuelgamuros.",en:"The Democratic Memory Law should stay, including the re-purposing of the Valley of Cuelgamuros."},
+  c:null,
+  pos:[-2,2,-2,2,2,-2,-1,1,1,-2,1,-1, 2,1,2,1,2,1,2,2,2,1,2,2,1,0]},
+ {id:"genero", topic:{es:"Igualdad",en:"Equality"},
+  t:{es:"La Ley Integral contra la Violencia de Género debe mantenerse y reforzarse.",en:"The comprehensive law against gender-based violence should be kept and strengthened."},
+  c:null,
+  pos:[1,2,-2,2,2,-2,1,1,0,-2,2,1, 2,1,2,2,2,1,2,2,2,1,2,2,1,1]},
+ {id:"aborto", topic:{es:"Igualdad",en:"Equality"},
+  t:{es:"El derecho al aborto debe blindarse en la Constitución.",en:"The right to abortion should be enshrined in the Constitution."},
+  c:null,
+  pos:[-1,2,-2,2,2,-2,1,1,0,-2,2,0, 2,1,2,1,2,0,2,2,2,1,2,2,0,0]},
+ {id:"toros", topic:{es:"Animales",en:"Animals"},
+  t:{es:"Deben eliminarse todas las ayudas públicas a la tauromaquia.",en:"All public subsidies for bullfighting should end."},
+  c:null,
+  pos:[-2,0,-2,2,2,-1,0,0,0,-2,2,0, 2,1,2,1,2,1,2,2,2,1,1,2,-1,-1]},
+ {id:"clima", topic:{es:"Clima",en:"Climate"},
+  t:{es:"Las políticas contra el cambio climático deben acelerarse aunque supongan costes para el campo o el transporte.",en:"Climate policy should speed up even if it brings costs for farming or transport."},
+  c:null,
+  pos:[-1,1,-2,2,2,-2,0,0,-1,-2,2,0, 1,-1,1,0,1,0,2,2,2,0,1,2,0,-1]},
+ {id:"nuclear", topic:{es:"Energía",en:"Energy"},
+  t:{es:"Hay que alargar la vida de las centrales nucleares más allá del calendario de cierre (2027-2035).",en:"Nuclear plants should run beyond the planned 2027–2035 closure schedule."},
+  c:{es:"El apagón de abril de 2025 reavivó el debate sobre el cierre de Almaraz.",en:"The April 2025 blackout revived the debate on closing Almaraz."},
+  pos:[2,-1,2,-2,-2,2,2,1,1,1,-2,1, -1,2,-2,0,-2,0,-2,-2,-2,1,-2,-2,0,0]},
+ {id:"defensa", topic:{es:"Defensa",en:"Defence"},
+  t:{es:"España debe aumentar el gasto en defensa hasta cumplir los nuevos objetivos de la OTAN.",en:"Spain should raise defence spending to meet NATO's new targets."},
+  c:{es:"España se desmarcó en 2025 del objetivo del 5% del PIB acordado en la OTAN.",en:"In 2025 Spain opted out of NATO's agreed 5%-of-GDP target."},
+  pos:[2,-1,1,-2,-2,1,2,1,-2,0,-2,1, -1,0,-2,1,-2,0,-2,-2,-2,1,-2,-2,0,0]},
+ {id:"israel", topic:{es:"Exterior",en:"Foreign policy"},
+  t:{es:"España debe romper las relaciones comerciales y diplomáticas con Israel.",en:"Spain should break off trade and diplomatic relations with Israel."},
+  c:null,
+  pos:[-2,1,-2,2,2,-2,-1,0,2,1,1,-1, 2,-1,2,0,2,0,2,2,2,-1,2,2,0,0]},
+ {id:"sahara", topic:{es:"Exterior",en:"Foreign policy"},
+  t:{es:"España debe retirar su apoyo al plan de autonomía de Marruecos para el Sáhara Occidental.",en:"Spain should withdraw its support for Morocco's autonomy plan for Western Sahara."},
+  c:null,
+  pos:[1,-2,2,2,2,1,1,2,2,2,1,0, 2,0,2,0,2,2,2,2,2,0,2,2,0,0]},
+ {id:"europa", topic:{es:"Europa",en:"Europe"},
+  t:{es:"La Unión Europea debe tener más poder y avanzar hacia una Europa federal.",en:"The European Union should gain more power and move towards a federal Europe."},
+  c:null,
+  pos:[1,2,-2,1,-1,-2,2,0,-2,-2,1,2, 1,0,0,1,0,1,1,1,1,0,0,0,0,0]}
+];
+
+/* Ejes de la brújula: signo +1 si "de acuerdo" = izquierda / plurinacional */
+const AXES = {
+  x: {alquiler:1, fortunas:1, irpf:-1, jornada:1, smi:1, sanidad:1, concertada:1, energia:1},
+  y: {referendum:1, financiacion:1, recentralizar:-1, lenguas:1, migcomp:1, amnistia:1}
+};
+
+/* Dichtstbijzijnde Nederlandse partij(en) op ideologie. null = geen redelijk equivalent. */
+const DUTCH = {
+  PP:"CDA · VVD", PSOE:"GroenLinks-PvdA", VOX:"JA21 · PVV", FA:"GroenLinks-PvdA · SP", POD:"SP · BIJ1",
+  SALF:"FvD · PVV", D21:"D66", IZQ:"SP", FO:"SP", FE:null, PACMA:"Partij voor de Dieren", IUST:"NSC",
+  ERC:"GroenLinks-PvdA · FNP", JUNTS:"VVD · FNP", BILDU:"SP · FNP", PNV:"CDA · FNP", BNG:"SP · FNP",
+  CC:"CDA · BBB", COMP:"GroenLinks-PvdA", UPC:"GroenLinks-PvdA · SP", ARA:"GroenLinks-PvdA", ALH:"VVD",
+  AA:"SP · BIJ1", DRAGO:"GroenLinks-PvdA · PvdD", EXIS:"BBB", SORIA:"BBB"
+};
+
+/* Nederlandse teksten */
+const NL_PARTY = {
+  PP:"Centrumrechts. Doet in Navarra mee samen met UPN. Belastingverlaging, intrekking van de amnestiewet en strenger migratiebeleid.",
+  PSOE:"Sociaaldemocratisch, met de PSC in Catalonië. Zet in op het economische beleid, sociale huurwoningen en dialoog met de regio's.",
+  VOX:"Nationalistisch rechts. Recentralisatie, strenge migratiecontrole, afschaffing van genderwetten en lagere belastingen.",
+  FA:"Coalitie van Movimiento Sumar, IU, Más Madrid, Comuns, CHA, Verdes Equo en anderen. Huurregulering, publieke voorzieningen en ecologie.",
+  POD:"Links. Doet in de meeste provincies alleen mee (op de Canarische Eilanden binnen UPC, in Valencia met Compromís). Feminisme, wonen, tegen hogere defensie-uitgaven.",
+  SALF:"Rechts-populistisch. Anticorruptie, hard tegen criminaliteit en migratie, lagere belastingen.",
+  D21:"Met Ciudadanos en UCIN. Liberaal en pro-Europees midden, tegen concessies aan regionale nationalisten.",
+  IZQ:"Jakobijns links: sociaaldemocratische economie en een eenheidsstaat, tegen territoriale voorrechten.",
+  FO:"Patriottisch arbeiderslinks. Nationalisaties, kritisch over massamigratie en de NAVO, tegen afscheiding.",
+  FE:"Nationaalsyndicalisme (falangisme). Eenheid van Spanje, sociaal katholicisme, tegen abortus en de Herinneringswet.",
+  PACMA:"Dierenpartij. Einde van stierenvechten en jacht, milieu en progressief sociaal beleid.",
+  IUST:"Onafhankelijke rechtspraak, corruptiebestrijding en pro-Europa. Weinig publieke standpunten over andere thema's (veel neutraal).",
+  ERC:"Links Catalaans onafhankelijkheidsstreven. Eigen financiering, referendum met instemming van de staat, strategisch pact met Podemos.",
+  JUNTS:"Centrumrechts Catalaans onafhankelijkheidsstreven. Wil meer bevoegdheden (ook migratie) en sluit nieuwe steun aan Sánchez uit.",
+  BILDU:"Baskisch en Navarrees soevereinistisch links. Recht op zelfbeschikking, sociaal en arbeidsbeleid.",
+  PNV:"Christendemocratisch Baskisch nationalisme. Meer zelfbestuur, eigen belastinginning ('concierto'), economisch gematigd.",
+  BNG:"Links Galicisch nationalisme. Soevereiniteit, het Galicisch en publieke voorzieningen.",
+  CC:"Centristisch Canarisch nationalisme. 'Canarische Agenda': financiering, migratie en de kosten van de eilandligging.",
+  COMP:"Valenciaans links en groen, met Podem en EUPV. Eerlijkere financiering voor de regio Valencia.",
+  UPC:"NC-BC, Podemos, Sumar en IU op de Canarische Eilanden. Canarisch links.",
+  ARA:"Més, Sumar en EU op de Balearen. Links soevereinisme, grenzen aan toerisme en speculatieve woningaankoop.",
+  ALH:"Catalaanse onafhankelijkheid via een eenzijdige route; economisch liberaal.",
+  AA:"Andalusisch links. Wonen, publieke voorzieningen en Andalusische zeggenschap over eigen hulpbronnen.",
+  DRAGO:"Canarisch groen-links van oud-Kamerlid Alberto Rodríguez.",
+  EXIS:"'Leeglopend Spanje': infrastructuur, voorzieningen en fiscale voordelen voor ontvolkte gebieden.",
+  SORIA:"Platform tegen ontvolking in Soria. Voorzieningen, verbindingen en exploitatiesteun."
+};
+const NL_Q = {
+  alquiler:["Wonen","De overheid moet de huurprijs in gebieden met woningnood wettelijk aan een maximum binden.","De Woonwet van 2023 maakt huurplafonds mogelijk, maar elke regio beslist of ze die toepast. Het wegstemmen van de woondecreten leidde tot deze verkiezingen."],
+  noresidentes:["Wonen","Aankoop van woningen door niet-ingezetenen van buiten de EU moet zwaar belast of beperkt worden.","De regering stelde een belasting tot 100% op zulke aankopen voor."],
+  turisticos:["Wonen","Nieuwe toeristenappartementen moeten verboden worden in gebieden met woningtekort."],
+  fortunas:["Belastingen","Er moet een permanente belasting op grote vermogens blijven.","De 'solidariteitsbelasting' werd in 2022 als tijdelijke maatregel ingevoerd en sindsdien verlengd."],
+  irpf:["Belastingen","De inkomstenbelasting (IRPF) moet omlaag, ook als dat lagere overheidsuitgaven betekent."],
+  jornada:["Werk","De maximale werkweek moet wettelijk naar 37,5 uur, zonder loonverlies.","De kortere werkweek werd in 2025 weggestemd door PP, Vox en Junts."],
+  smi:["Werk","Het minimumloon moet blijven stijgen tot 60% van het gemiddelde loon."],
+  pensiones:["Pensioenen","Pensioenen moeten altijd meestijgen met de inflatie, ook als de premies daarvoor omhoog moeten."],
+  sanidad:["Zorg","Privaat beheer binnen de publieke gezondheidszorg (contracten, privaat beheerde ziekenhuizen) moet worden teruggedrongen."],
+  concertada:["Onderwijs","Overheidsgeld voor gesubsidieerde particuliere scholen ('concertada') moet naar het openbaar onderwijs gaan."],
+  energia:["Economie","De staat moet een publiek energiebedrijf oprichten en meer controle krijgen over strategische sectoren."],
+  regularizacion:["Migratie","Migranten zonder papieren die al in Spanje wonen en werken, moeten een verblijfsvergunning krijgen.","Een burgerinitiatief met meer dan 600.000 handtekeningen vroeg om legalisering van zo'n 500.000 mensen."],
+  fronteras:["Migratie","Spanje moet de grenscontrole aanscherpen en migranten die misdrijven plegen sneller uitzetten.","De massale grensoversteek in Ceuta op 30 juli 2026 heropende dit debat."],
+  migcomp:["Migratie","Regio's die dat willen, moeten zelf bevoegdheden over migratie kunnen uitoefenen.","De PSOE sprak met Junts af deze bevoegdheden aan Catalonië over te dragen; Podemos stemde het weg in het Congres."],
+  amnistia:["Territorium","De amnestiewet voor betrokkenen bij het Catalaanse onafhankelijkheidsproces was een goede beslissing."],
+  referendum:["Territorium","Catalonië en Baskenland moeten met instemming van de staat een referendum over zelfbeschikking kunnen houden."],
+  financiacion:["Territorium","Catalonië moet een eigen financieringsregeling krijgen en al zijn belastingen zelf innen, zoals Baskenland en Navarra."],
+  recentralizar:["Territorium","Bevoegdheden zoals onderwijs en zorg moeten terug naar de centrale staat."],
+  lenguas:["Talen","Catalaans, Baskisch en Galicisch moeten verplicht zijn om bij de overheid in hun regio te werken."],
+  vaciada:["Platteland","Ontvolkte gebieden moeten belastingvoordelen en voorrang bij overheidsinvesteringen krijgen."],
+  monarquia:["Instituties","Er moet een referendum komen over monarchie of republiek."],
+  cgpj:["Rechtspraak","Rechters moeten zelf de meerderheid van de raad voor de rechtspraak (CGPJ) kiezen, zonder tussenkomst van het parlement."],
+  mordaza:["Burgerrechten","De Wet openbare veiligheid (de 'muilkorfwet') moet worden ingetrokken."],
+  memoria:["Herinnering","De Wet op de democratische herinnering moet blijven, inclusief de herbestemming van de Vallei van Cuelgamuros."],
+  genero:["Gelijkheid","De wet tegen gendergerelateerd geweld moet blijven en worden versterkt."],
+  aborto:["Gelijkheid","Het recht op abortus moet in de Grondwet worden verankerd."],
+  toros:["Dieren","Alle overheidssubsidies voor het stierenvechten moeten stoppen."],
+  clima:["Klimaat","Klimaatbeleid moet versnellen, ook als dat kosten meebrengt voor landbouw of transport."],
+  nuclear:["Energie","Kerncentrales moeten langer open blijven dan het geplande sluitingsschema (2027–2035).","De stroomstoring van april 2025 deed het debat over de sluiting van Almaraz oplaaien."],
+  defensa:["Defensie","Spanje moet de defensie-uitgaven verhogen tot de nieuwe NAVO-norm.","Spanje bedong in 2025 een uitzondering op de NAVO-norm van 5% van het bbp."],
+  israel:["Buitenland","Spanje moet de handels- en diplomatieke betrekkingen met Israël verbreken."],
+  sahara:["Buitenland","Spanje moet zijn steun voor het Marokkaanse autonomieplan voor de Westelijke Sahara intrekken."],
+  europa:["Europa","De Europese Unie moet meer macht krijgen en toewerken naar een federaal Europa."]
+};
+PARTIES.forEach(p=>{p.d.nl=NL_PARTY[p.id];p.nl=DUTCH[p.id];});
+QUESTIONS.forEach(q=>{const n=NL_Q[q.id];q.topic.nl=n[0];q.t.nl=n[1];if(q.c)q.c.nl=n[2];});
+</script>
+
+<script>
+const REGIONS = {AND:"Andalucía",ARA:"Aragón",AST:"Asturias",BAL:"Illes Balears",CAN:"Canarias",CANT:"Cantabria",CLM:"Castilla-La Mancha",CYL:"Castilla y León",CAT:"Cataluña",CEU:"Ceuta",CV:"Comunitat Valenciana",EXT:"Extremadura",GAL:"Galicia",MAD:"Madrid",MEL:"Melilla",MUR:"Región de Murcia",NAV:"Navarra",PV:"País Vasco",RIO:"La Rioja"};
+const T = {
+ es:{sub:"Elecciones generales · 29 nov 2026",
+  h1:"¿Qué partido piensa <em>como tú</em>?",
+  lead:"33 afirmaciones sobre los temas que deciden el 29N: vivienda, impuestos, territorio, inmigración, igualdad y política exterior. Responde y compara tu opinión con las de 26 candidaturas, estatales y autonómicas.",
+  facts:[["Congreso","350 escaños"],["Circunscripciones","52"],["Reparto","D'Hondt"],["Duración","≈ 8 min"]],
+  region:"Tu comunidad (opcional, para marcar qué partidos se presentan allí)",
+  anyRegion:"Toda España",
+  start:"Empezar el test", resume:"Continuar donde lo dejé",
+  partiesLabel:"Candidaturas incluidas", statewide:"Estatal",
+  notIncl:"No incluidas: Escaños en Blanco (sin programa más allá de dejar escaños vacíos). Se presentan en solitario o en coalición según la provincia; los partidos estatales pueden ir integrados en coaliciones locales. No se presentan: CUP, Volt, Alianza Catalana, UPL y Por Ávila; el PCPE pide el voto nulo.",
+  of:"de", ans:["Muy de acuerdo","De acuerdo","Neutral","En desacuerdo","Muy en desacuerdo"],
+  skip:"Saltar esta pregunta", back:"← Anterior", peek:"¿Qué opinan los partidos?",
+  agree:"De acuerdo", neutral:"Neutral", disagree:"En desacuerdo",
+  impH:"¿Qué temas son más importantes para ti?",
+  impP:"Los temas marcados cuentan el doble en el resultado. Puedes no marcar ninguno.",
+  skipped:"saltada",
+  optAll:"Incluir partidos que no se presentan en mi comunidad",
+  show:"Ver mi resultado",
+  resH:"Tu afinidad con cada partido",
+  resP:(n)=>`Basado en ${n} respuestas. El porcentaje mide cuánto coinciden tus respuestas con las posiciones de cada partido (100% = coincidencia total).`,
+  compassH:"Dónde te sitúas",
+  xl:"Izquierda", xr:"Derecha", yt:"Plurinacional", yb:"Centralista", you:"Tú",
+  details:"Toca un partido para ver la comparación pregunta a pregunta.",
+  cq:"Afirmación", cy:"Tú", cp:"Partido",
+  restart:"Repetir el test", edit:"Cambiar respuestas", copy:"Copiar resultado", copied:"Copiado",
+  notHere:"no se presenta en tu comunidad", home:"Inicio",
+  dutch:"Equivalente neerlandés", noEq:"sin equivalente claro",
+  dutchNote:"Comparación orientativa por ideología. Los Países Bajos no tienen partidos independentistas; para los nacionalismos regionales se cita también el FNP frisón, que solo está en los parlamentos provinciales.",
+  match:{ok:"coincide",mid:"parcial",no:"discrepa"},
+  foot:`Las posiciones de cada partido son una estimación editorial basada en programas, votaciones en el Congreso y declaraciones públicas recientes; no son posiciones oficiales y pueden contener errores, sobre todo en partidos pequeños con pocas posiciones públicas. Este test no está afiliado a ProDemos ni a ningún partido. Tus respuestas solo se guardan en tu navegador. Fuentes de candidaturas: <a href="https://es.wikipedia.org/wiki/Elecciones_generales_de_Espa%C3%B1a_de_2026" target="_blank" rel="noopener">Wikipedia</a>, <a href="https://es.euronews.com/2026/10/22/29n-listas-candidatos-partidos-generales" target="_blank" rel="noopener">Euronews</a>. Actualizado el 27 de octubre de 2026.`},
+ en:{sub:"General election · 29 Nov 2026",
+  h1:"Which party thinks <em>like you</em>?",
+  lead:"33 statements on the issues that decide 29 November: housing, taxes, territory, immigration, equality and foreign policy. Answer them and compare your views with 26 national and regional candidacies.",
+  facts:[["Congress","350 seats"],["Constituencies","52"],["Allocation","D'Hondt"],["Time","≈ 8 min"]],
+  region:"Your region (optional, marks which parties stand there)",
+  anyRegion:"All of Spain",
+  start:"Start the test", resume:"Continue where I left off",
+  partiesLabel:"Candidacies included", statewide:"Nationwide",
+  notIncl:"Not included: Escaños en Blanco (no programme beyond leaving seats empty). Parties run alone or in coalitions depending on the province; national parties may be part of local coalitions. Not standing: CUP, Volt, Alianza Catalana, UPL and Por Ávila; the PCPE calls for a spoilt vote.",
+  of:"of", ans:["Strongly agree","Agree","Neutral","Disagree","Strongly disagree"],
+  skip:"Skip this question", back:"← Previous", peek:"What do the parties think?",
+  agree:"Agree", neutral:"Neutral", disagree:"Disagree",
+  impH:"Which issues matter most to you?",
+  impP:"Ticked statements count double in your result. You can leave them all unticked.",
+  skipped:"skipped",
+  optAll:"Include parties not standing in my region",
+  show:"See my result",
+  resH:"Your match with each party",
+  resP:(n)=>`Based on ${n} answers. The percentage shows how closely your answers match each party's positions (100% = full agreement).`,
+  compassH:"Where you stand",
+  xl:"Left", xr:"Right", yt:"Plurinational", yb:"Centralist", you:"You",
+  details:"Tap a party to compare answers statement by statement.",
+  cq:"Statement", cy:"You", cp:"Party",
+  restart:"Retake the test", edit:"Change answers", copy:"Copy result", copied:"Copied",
+  notHere:"not standing in your region", home:"Home",
+  dutch:"Closest Dutch party", noEq:"no clear equivalent",
+  dutchNote:"A rough ideological comparison. The Netherlands has no independence parties; for regional nationalists the Frisian FNP, which sits only in provincial councils, is also given.",
+  match:{ok:"match",mid:"partial",no:"differs"},
+  foot:`Party positions are an editorial estimate based on manifestos, votes in Congress and recent public statements; they are not official and may contain errors, especially for small parties with few public positions. This test is not affiliated with ProDemos or any party. Your answers are stored only in your browser. Candidacy sources: <a href="https://es.wikipedia.org/wiki/Elecciones_generales_de_Espa%C3%B1a_de_2026" target="_blank" rel="noopener">Wikipedia</a>, <a href="https://es.euronews.com/2026/10/22/29n-listas-candidatos-partidos-generales" target="_blank" rel="noopener">Euronews</a>. Updated 27 October 2026.`},
+ nl:{sub:"Parlementsverkiezingen · 29 nov 2026",
+  h1:"Welke partij denkt <em>zoals jij</em>?",
+  lead:"33 stellingen over de thema's die 29 november beslissen: wonen, belastingen, de regio's, migratie, gelijkheid en buitenland. Geef je mening en vergelijk die met 26 landelijke en regionale partijen. Bij elke partij zie je ook op welke Nederlandse partij ze het meest lijkt.",
+  facts:[["Congres","350 zetels"],["Kieskringen","52"],["Zetelverdeling","D'Hondt"],["Duur","≈ 8 min"]],
+  region:"Jouw regio (optioneel, toont welke partijen daar meedoen)",
+  anyRegion:"Heel Spanje",
+  start:"Start de test", resume:"Verder waar ik was",
+  partiesLabel:"Deelnemende partijen", statewide:"Landelijk",
+  notIncl:"Niet opgenomen: Escaños en Blanco (geen programma behalve zetels leeg laten). Partijen doen per provincie alleen of in een coalitie mee; landelijke partijen kunnen deel zijn van lokale coalities. Doen niet mee: CUP, Volt, Alianza Catalana, UPL en Por Ávila; de PCPE roept op tot een ongeldige stem.",
+  of:"van", ans:["Helemaal eens","Eens","Neutraal","Oneens","Helemaal oneens"],
+  skip:"Sla deze stelling over", back:"← Vorige", peek:"Wat vinden de partijen?",
+  agree:"Eens", neutral:"Neutraal", disagree:"Oneens",
+  impH:"Welke onderwerpen vind je het belangrijkst?",
+  impP:"Aangevinkte stellingen tellen dubbel mee. Je mag ook niets aanvinken.",
+  skipped:"overgeslagen",
+  optAll:"Toon ook partijen die niet in mijn regio meedoen",
+  show:"Bekijk mijn uitslag",
+  resH:"Jouw overeenkomst met elke partij",
+  resP:(n)=>`Gebaseerd op ${n} antwoorden. Het percentage laat zien hoeveel je antwoorden overeenkomen met de standpunten van elke partij (100% = volledig eens).`,
+  compassH:"Waar je staat",
+  xl:"Links", xr:"Rechts", yt:"Plurinationaal", yb:"Centralistisch", you:"Jij",
+  details:"Tik op een partij om per stelling te vergelijken.",
+  cq:"Stelling", cy:"Jij", cp:"Partij",
+  restart:"Test opnieuw doen", edit:"Antwoorden wijzigen", copy:"Uitslag kopiëren", copied:"Gekopieerd",
+  notHere:"doet niet mee in jouw regio", home:"Start",
+  dutch:"Lijkt op (NL)", noEq:"geen duidelijk equivalent",
+  dutchNote:"Een globale vergelijking op ideologie. Nederland kent geen onafhankelijkheidspartijen; bij regionale nationalisten staat daarom ook de Friese FNP, die alleen in Provinciale Staten zit.",
+  match:{ok:"eens",mid:"deels",no:"oneens"},
+  foot:`De standpunten van de partijen zijn een redactionele inschatting op basis van programma's, stemgedrag in het Congres en recente uitspraken. Ze zijn niet officieel en kunnen fouten bevatten, vooral bij kleine partijen met weinig publieke standpunten. De vergelijking met Nederlandse partijen is indicatief. Deze test is niet verbonden aan ProDemos of aan een partij. Je antwoorden worden alleen in je eigen browser bewaard. Bronnen kandidaten: <a href="https://es.wikipedia.org/wiki/Elecciones_generales_de_Espa%C3%B1a_de_2026" target="_blank" rel="noopener">Wikipedia</a>, <a href="https://es.euronews.com/2026/10/22/29n-listas-candidatos-partidos-generales" target="_blank" rel="noopener">Euronews</a>. Bijgewerkt op 27 oktober 2026.`}
+};
+const VALS=[2,1,0,-1,-2];
+const KEY="stemwijzer-es-29n";
+const navLang=(navigator.language||"es").toLowerCase().slice(0,2);
+let S={lang:["es","nl"].includes(navLang)?navLang:"en",screen:"intro",i:0,answers:{},imp:{},region:"",all:false,open:null};
+try{const saved=JSON.parse(localStorage.getItem(KEY)||"null");if(saved)S=Object.assign(S,saved,{open:null});}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const L=()=>T[S.lang];
+const tx=o=>o?(o[S.lang]??o.en):"";
+const dutchOf=p=>p.nl||L().noEq;
+const standsIn=(p,r)=>!r||p.scope==="ES"||p.scope.includes(r);
+const scopeLabel=p=>p.scope==="ES"?L().statewide:p.scope.map(r=>REGIONS[r]).join(", ");
+const valLabel=v=>L().ans[VALS.indexOf(v)];
+const vcls=v=>v==null?"vx":"v"+(v<0?"m"+(-v):v);
+
+function score(){
+  return PARTIES.map((p,pi)=>{
+    let s=0,w=0;
+    QUESTIONS.forEach(q=>{const u=S.answers[q.id];if(u==null)return;const wt=S.imp[q.id]?2:1;s+=wt*(1-Math.abs(u-q.pos[pi])/4);w+=wt;});
+    return {p,pi,pct:w?Math.round(100*s/w):0};
+  }).sort((a,b)=>b.pct-a.pct);
+}
+function axisPos(get){
+  const f=ax=>{let s=0,n=0;for(const id in ax){const v=get(id);if(v==null)continue;s+=ax[id]*v;n++;}return n?s/n:0;};
+  return {x:-f(AXES.x),y:f(AXES.y)};
+}
+
+function render(){
+  document.documentElement.lang=S.lang;
+  document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.lang===S.lang));
+  $("#sub").textContent=L().sub;
+  $("#foot").innerHTML=L().foot;
+  ({intro:renderIntro,q:renderQ,imp:renderImp,res:renderRes})[S.screen]();
+  save();
+}
+
+function regionSelect(id){
+  return `<select id="${id}"><option value="">${L().anyRegion}</option>${Object.entries(REGIONS).map(([k,v])=>`<option value="${k}"${S.region===k?" selected":""}>${v}</option>`).join("")}</select>`;
+}
+function bindRegion(id){const el=$("#"+id);if(el)el.onchange=e=>{S.region=e.target.value;render();};}
+
+function renderIntro(){
+  const l=L(),started=Object.keys(S.answers).length>0;
+  const list=PARTIES.filter(p=>standsIn(p,S.region));
+  $("#app").innerHTML=`
+  <section class="hero">
+    <h1>${l.h1}</h1>
+    <p>${l.lead}</p>
+    <div class="facts">${l.facts.map(f=>`<span><i>${f[0]}</i>${f[1]}</span>`).join("")}</div>
+    <div class="cta">
+      <button class="btn" id="go">${started?l.resume:l.start}</button>
+      ${started?`<button class="btn ghost" id="reset">${l.restart}</button>`:""}
+    </div>
+    <label class="regionpick" for="reg">${l.region}${regionSelect("reg")}</label>
+  </section>
+  <div class="section-label">${l.partiesLabel} · ${list.length}</div>
+  <div class="partygrid">${list.map(p=>`
+    <div class="pchip"><span class="sw" style="background:${p.color}"></span><div><strong>${esc(p.name)}</strong><small>${esc(p.leader)} · ${esc(scopeLabel(p))}</small><small class="nleq"><span class="nlb">NL</span> ${esc(dutchOf(p))}</small></div></div>`).join("")}
+  </div>
+  <p class="note" style="margin-top:14px">${l.notIncl}</p>
+  <p class="note"><span class="nlb">NL</span> ${l.dutch}: ${l.dutchNote}</p>`;
+  $("#go").onclick=()=>{S.screen="q";render();window.scrollTo(0,0);};
+  if(started)$("#reset").onclick=()=>{S.answers={};S.imp={};S.i=0;S.screen="q";render();};
+  bindRegion("reg");
+}
+
+function renderQ(){
+  const l=L(),q=QUESTIONS[S.i],n=QUESTIONS.length,cur=S.answers[q.id];
+  const groups={a:[],n:[],d:[]};
+  PARTIES.forEach((p,pi)=>{if(!standsIn(p,S.region))return;const v=q.pos[pi];(v>0?groups.a:v<0?groups.d:groups.n).push(p);});
+  const tags=arr=>arr.map(p=>`<li class="tag"><i style="background:${p.color}"></i>${esc(p.short)}</li>`).join("");
+  $("#app").innerHTML=`
+  <div class="progress" style="--n:${n}">${QUESTIONS.map((x,k)=>`<button aria-label="${k+1}" class="${k===S.i?"cur":x.id in S.answers?(S.answers[x.id]==null?"skip":"done"):""}" data-k="${k}"></button>`).join("")}</div>
+  <div class="qmeta"><span class="topic">${tx(q.topic)}</span><span>${S.i+1} ${l.of} ${n}</span></div>
+  <article class="ballot">
+    <h2>${esc(tx(q.t))}</h2>
+    ${q.c?`<p class="ctx">${esc(tx(q.c))}</p>`:""}
+  </article>
+  <div class="answers">${VALS.map((v,k)=>`<button data-v="${v}" class="${cur===v?"sel":""}"><span class="dot"></span><span class="l">${l.ans[k]}</span></button>`).join("")}</div>
+  <div class="qnav">
+    <button class="link" id="prev">${S.i>0?l.back:"← "+l.home}</button>
+    <button class="link" id="skip">${l.skip}</button>
+  </div>
+  <details class="peek"><summary>${l.peek}</summary>
+    <div class="peekcols">
+      <div><h4 class="v2">${l.agree}</h4><ul>${tags(groups.a)}</ul></div>
+      <div><h4 class="v0">${l.neutral}</h4><ul>${tags(groups.n)}</ul></div>
+      <div><h4 class="vm2">${l.disagree}</h4><ul>${tags(groups.d)}</ul></div>
+    </div>
+  </details>`;
+  const next=()=>{if(S.i<n-1){S.i++;}else{S.screen="imp";}render();};
+  document.querySelectorAll(".answers button").forEach(b=>b.onclick=()=>{S.answers[q.id]=+b.dataset.v;next();});
+  $("#skip").onclick=()=>{S.answers[q.id]=null;next();};
+  $("#prev").onclick=()=>{if(S.i>0){S.i--;}else{S.screen="intro";}render();};
+  document.querySelectorAll(".progress button").forEach(b=>b.onclick=()=>{S.i=+b.dataset.k;render();});
+}
+
+function renderImp(){
+  const l=L();
+  $("#app").innerHTML=`
+  <section class="hero" style="padding-top:20px"><h1 style="font-size:clamp(30px,5.5vw,48px)">${l.impH}</h1><p>${l.impP}</p></section>
+  <div class="implist">${QUESTIONS.map(q=>{const sk=S.answers[q.id]==null;return `
+    <label class="imp${sk?" off":""}" for="imp-${q.id}"><input type="checkbox" id="imp-${q.id}" data-id="${q.id}" ${S.imp[q.id]?"checked":""} ${sk?"disabled":""}>
+    <div><small>${tx(q.topic)}${sk?" · "+l.skipped:""}</small>${esc(tx(q.t))}</div></label>`}).join("")}</div>
+  <div class="opts">
+    <label class="regionpick" for="reg2">${l.region}${regionSelect("reg2")}</label>
+  </div>
+  <div class="cta" style="margin-top:22px"><button class="btn" id="show">${l.show}</button><button class="link" id="back">${l.back}</button></div>`;
+  document.querySelectorAll(".imp input").forEach(c=>c.onchange=()=>{S.imp[c.dataset.id]=c.checked;save();});
+  bindRegion("reg2");
+  $("#show").onclick=()=>{S.screen="res";render();window.scrollTo(0,0);};
+  $("#back").onclick=()=>{S.screen="q";S.i=QUESTIONS.length-1;render();};
+}
+
+function compassSVG(){
+  const W=560,H=360,pad=34,sx=v=>W/2+v*(W/2-pad)/2,sy=v=>H/2-v*(H/2-pad)/2;
+  const you=axisPos(id=>S.answers[id]);
+  const pts=PARTIES.filter(p=>S.all||standsIn(p,S.region)).map(p=>{const pi=PARTIES.indexOf(p);const a=axisPos(id=>QUESTIONS.find(q=>q.id===id).pos[pi]);return {p,...a};});
+  const l=L();
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${l.compassH}">
+    <rect x="${pad}" y="${pad}" width="${W-2*pad}" height="${H-2*pad}" fill="var(--bg)" stroke="var(--line)"/>
+    <line x1="${W/2}" y1="${pad}" x2="${W/2}" y2="${H-pad}" stroke="var(--line)"/>
+    <line x1="${pad}" y1="${H/2}" x2="${W-pad}" y2="${H/2}" stroke="var(--line)"/>
+    <text x="${pad}" y="${H/2-6}" font-size="11">${l.xl}</text>
+    <text x="${W-pad}" y="${H/2-6}" font-size="11" text-anchor="end">${l.xr}</text>
+    <text x="${W/2+6}" y="${pad+14}" font-size="11">${l.yt}</text>
+    <text x="${W/2+6}" y="${H-pad-6}" font-size="11">${l.yb}</text>
+    ${pts.map(o=>`<g><circle cx="${sx(o.x)}" cy="${sy(o.y)}" r="5.5" fill="${o.p.color}" stroke="var(--paper)" stroke-width="1.5"/><text x="${sx(o.x)+8}" y="${sy(o.y)+4}" font-size="10.5" style="fill:var(--ink)">${esc(o.p.short)}</text></g>`).join("")}
+    <g><circle cx="${sx(you.x)}" cy="${sy(you.y)}" r="9" fill="var(--accent)" stroke="var(--paper)" stroke-width="2.5"/><text x="${sx(you.x)}" y="${sy(you.y)-14}" font-size="13" font-weight="700" text-anchor="middle" style="fill:var(--accent)">${l.you}</text></g>
+  </svg>`;
+}
+
+function renderRes(){
+  const l=L(),answered=QUESTIONS.filter(q=>S.answers[q.id]!=null).length;
+  const all=score();
+  const shown=all.filter(r=>S.all||standsIn(r.p,S.region));
+  const top=shown.slice(0,3);
+  $("#app").innerHTML=`
+  <section class="hero" style="padding-top:20px"><h1 style="font-size:clamp(32px,6vw,54px)">${l.resH}</h1><p>${l.resP(answered)}</p></section>
+  <div class="podium">${top.map((r,k)=>`<div class="pod" style="--c:${r.p.color}"><span class="n">#${k+1}</span><b>${esc(r.p.name)}</b><div class="big">${r.pct}%</div><small class="nleq">${l.dutch}: ${esc(dutchOf(r.p))}</small></div>`).join("")}</div>
+  <div class="filterbar">
+    <label class="regionpick" for="reg3" style="flex-direction:row;align-items:center;gap:8px">${regionSelect("reg3")}</label>
+    ${S.region?`<label for="allp"><input type="checkbox" id="allp" ${S.all?"checked":""}> ${l.optAll}</label>`:""}
+  </div>
+  <div class="section-label">${l.details}</div>
+  <div class="resgrid">${shown.map((r,k)=>{const here=standsIn(r.p,S.region);return `
+    <div class="row${here?"":" out"}">
+      <button data-id="${r.p.id}" aria-expanded="${S.open===r.p.id}">
+        <span class="rank">${k+1}</span>
+        <span class="rname"><b>${esc(r.p.name)}<small>${esc(r.p.leader)} · <span class="nlb">NL</span> ${esc(dutchOf(r.p))}${here?"":" · "+l.notHere}</small></b><span class="bar"><i style="width:${r.pct}%;background:${r.p.color}"></i></span></span>
+        <span class="pct">${r.pct}%</span>
+      </button>
+      ${S.open===r.p.id?detail(r):""}
+    </div>`}).join("")}</div>
+  <div class="section-label">${l.compassH}</div>
+  <div class="compass">${compassSVG()}</div>
+  <div class="cta" style="margin-top:22px">
+    <button class="btn" id="copy">${l.copy}</button>
+    <button class="btn ghost" id="edit">${l.edit}</button>
+    <button class="link" id="restart">${l.restart}</button>
+  </div>
+  <textarea id="copytext" readonly hidden style="width:100%;margin-top:10px;height:120px;font:inherit;font-size:13px;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:8px"></textarea>`;
+  document.querySelectorAll(".row > button").forEach(b=>b.onclick=()=>{S.open=S.open===b.dataset.id?null:b.dataset.id;render();});
+  bindRegion("reg3");
+  const ap=$("#allp");if(ap)ap.onchange=()=>{S.all=ap.checked;render();};
+  $("#edit").onclick=()=>{S.screen="q";S.i=0;render();window.scrollTo(0,0);};
+  $("#restart").onclick=()=>{S.answers={};S.imp={};S.i=0;S.screen="intro";render();window.scrollTo(0,0);};
+  $("#copy").onclick=()=>{
+    const txt=`Stemwijzer Spanje · 29N\n`+shown.slice(0,5).map((r,k)=>`${k+1}. ${r.p.name}: ${r.pct}%`).join("\n");
+    const ta=$("#copytext");
+    const ok=()=>{$("#copy").textContent=l.copied;};
+    const fb=()=>{ta.hidden=false;ta.value=txt;ta.select();};
+    try{navigator.clipboard.writeText(txt).then(ok,fb);}catch(e){fb();}
+  };
+}
+
+function detail(r){
+  const l=L();
+  const rows=QUESTIONS.map(q=>{const u=S.answers[q.id],p=q.pos[r.pi];
+    let m="";if(u!=null){const d=Math.abs(u-p);m=d===0||(d===1&&u*p>0)?"ok":(u*p<0?"no":"mid");}
+    return `<tr><td>${esc(tx(q.t))}${S.imp[q.id]?" ★":""}</td><td class="v ${vcls(u)}">${u==null?"—":valLabel(u)}</td><td class="v ${vcls(p)}">${valLabel(p)}</td><td>${m?`<span class="match ${m}">${l.match[m]}</span>`:""}</td></tr>`;}).join("");
+  return `<div class="detail"><p>${esc(tx(r.p.d))}</p><p><strong style="color:var(--ink)">${l.dutch}:</strong> ${esc(dutchOf(r.p))}. ${l.dutchNote}</p><div class="tablewrap"><table class="cmp"><thead><tr><th>${l.cq}</th><th>${l.cy}</th><th>${l.cp}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+}
+
+document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>{S.lang=b.dataset.lang;render();});
+render();
+</script>
+</body>
+</html>
